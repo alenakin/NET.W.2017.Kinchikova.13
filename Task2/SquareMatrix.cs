@@ -6,38 +6,48 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
+    /// <summary>
+    /// Represents a square matrix.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the matrix.</typeparam>
     public class SquareMatrix<T> : Matrix<T>
     {
+        #region Field
         private T[,] values;
+        #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Creates matrix with size x size elements.
+        /// </summary>
+        /// <param name="size">Size of matrix.</param>
         public SquareMatrix(int size) : base(size)
         {
-            values = new T[size, size];
+            this.values = new T[size, size];
+        }
+        #endregion
+
+        #region Public methods
+        /// <summary>
+        /// Creates array with elements of matrix.
+        /// </summary>
+        /// <returns>Array with elements of matrix.</returns>
+        public override T[,] ToArray()
+        {
+            return this.values;
+        }
+        #endregion
+
+        #region Protected methods
+        protected override T GetValue(int firstIdx, int secondIdx)
+        {
+            return this.values[firstIdx, secondIdx];
         }
 
-        protected override T getValue(int firstIdx, int secondIdx)
+        protected override void SetValue(int firstIdx, int secondIdx, T value)
         {
-            return values[firstIdx, secondIdx];
-        }
-
-        protected override void setValue(int firstIdx, int secondIdx, T value)
-        {
-            values[firstIdx, secondIdx] = value;
-        }
-        
-        public override string ToString()
-        {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < Size; i++)
-            {
-                for (int j = 0; j < Size; j++)
-                {
-                    result.Append(values[i, j] + " ");
-                }
-
-                result.Append(Environment.NewLine);
-            }
-            return result.ToString();
-        }
+            this.values[firstIdx, secondIdx] = value;
+        } 
+        #endregion
     }
 }

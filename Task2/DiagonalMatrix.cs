@@ -6,43 +6,60 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
+    /// <summary>
+    /// Represents a square diagonal matrix.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the matrix.</typeparam>
     public class DiagonalMatrix<T> : Matrix<T>
     {
+        #region Field
         private T[] diagonal;
+        #endregion
 
+        #region Constructors
+        /// <summary>
+        /// Creates matrix with size x size elements.
+        /// </summary>
+        /// <param name="size">Size of matrix.</param>
         public DiagonalMatrix(int size) : base(size)
         {
-            diagonal = new T[size];
+            this.diagonal = new T[size];
         }
+        #endregion
 
-        public override string ToString()
+        #region Public methods
+        /// <summary>
+        /// Creates array with elements of matrix.
+        /// </summary>
+        /// <returns>Array with elements of matrix.</returns>
+        public override T[,] ToArray()
         {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < Size; i++)
+            T[,] array = new T[Size, Size];
+            for (int i = 0; i < this.Size; i++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < this.Size; j++)
                 {
                     if (i == j)
                     {
-                        result.Append(diagonal[i] + " ");
+                        array[i, j] = this.diagonal[i];
                     }
                     else
                     {
-                        result.Append(default(T) + " ");
+                        array[i, j] = default(T);
                     }
                 }
-
-                result.Append(Environment.NewLine);
             }
 
-            return result.ToString();
+            return array;
         }
+        #endregion
 
-        protected override T getValue(int firstIdx, int secondIdx)
+        #region Protected methods
+        protected override T GetValue(int firstIdx, int secondIdx)
         {
             if (firstIdx == secondIdx)
             {
-                return diagonal[firstIdx];
+                return this.diagonal[firstIdx];
             }
             else
             {
@@ -50,7 +67,7 @@ namespace Task2
             }
         }
 
-        protected override void setValue(int firstIdx, int secondIdx, T value)
+        protected override void SetValue(int firstIdx, int secondIdx, T value)
         {
             if (firstIdx != secondIdx && !value.Equals(default(T)))
             {
@@ -58,7 +75,8 @@ namespace Task2
                     "default values outside the diagonal.");
             }
 
-            diagonal[firstIdx] = value;
+            this.diagonal[firstIdx] = value;
         }
+        #endregion
     }
 }

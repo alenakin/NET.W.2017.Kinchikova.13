@@ -6,43 +6,61 @@ using System.Threading.Tasks;
 
 namespace Task2
 {
+    /// <summary>
+    /// Represents a square symmetric matrix.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the matrix.</typeparam>
     public class SymmetricMatrix<T> : Matrix<T>
     {
+        #region Field
         private T[][] angularMatrix;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Creates matrix with size x size elements.
+        /// </summary>
+        /// <param name="size">Size of matrix.</param>
         public SymmetricMatrix(int size) : base(size)
         {
-            angularMatrix = new T[size][];
-            for (int i = 0; i < Size; i++)
+            this.angularMatrix = new T[size][];
+            for (int i = 0; i < this.Size; i++)
             {
-                angularMatrix[i] = new T[i + 1];
+                this.angularMatrix[i] = new T[i + 1];
             }
         }
+        #endregion
 
-        protected override T getValue(int firstIdx, int secondIdx)
+        #region Public methods
+        /// <summary>
+        /// Creates array with elements of matrix.
+        /// </summary>
+        /// <returns>Array with elements of matrix.</returns>
+        public override T[,] ToArray()
         {
-            return angularMatrix[Math.Max(firstIdx, secondIdx)][Math.Min(firstIdx, secondIdx)];
-        }
-
-        protected override void setValue(int firstIdx, int secondIdx, T value)
-        {
-            angularMatrix[Math.Max(firstIdx, secondIdx)][Math.Min(firstIdx, secondIdx)] = value;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < Size; i++)
+            T[,] array = new T[Size, Size];
+            for (int i = 0; i < this.Size; i++)
             {
-                for (int j = 0; j < Size; j++)
+                for (int j = 0; j < this.Size; j++)
                 {
-                    result.Append(angularMatrix[Math.Max(i, j)][Math.Min(i, j)] + " ");
+                    array[i, j] = this.angularMatrix[Math.Max(i, j)][Math.Min(i, j)];
                 }
-
-                result.Append(Environment.NewLine);
             }
 
-            return result.ToString();
+            return array;
         }
+        #endregion
+
+        #region Protected methods
+        protected override T GetValue(int firstIdx, int secondIdx)
+        {
+            return this.angularMatrix[Math.Max(firstIdx, secondIdx)][Math.Min(firstIdx, secondIdx)];
+        }
+
+        protected override void SetValue(int firstIdx, int secondIdx, T value)
+        {
+            this.angularMatrix[Math.Max(firstIdx, secondIdx)][Math.Min(firstIdx, secondIdx)] = value;
+        }
+        #endregion
     }
 }
