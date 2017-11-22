@@ -10,31 +10,21 @@ namespace Task2
     {
         private T[,] values;
 
-        public int Size { get; }
-
-        public SquareMatrix(int size)
+        public SquareMatrix(int size) : base(size)
         {
-            this.Size = size;
             values = new T[size, size];
         }
 
-        public T this[int firstIdx, int secondIdx]
+        protected override T getValue(int firstIdx, int secondIdx)
         {
-            get
-            {
-                IndexesValidation(firstIdx, secondIdx);
-
-                return values[firstIdx, secondIdx];
-            }
-            set
-            {
-                IndexesValidation(firstIdx, secondIdx);
-
-                values[firstIdx, secondIdx] = value;
-                OnElementChanged(new ElementChangedEventArgs<T>(firstIdx, secondIdx, value));
-            }
+            return values[firstIdx, secondIdx];
         }
 
+        protected override void setValue(int firstIdx, int secondIdx, T value)
+        {
+            values[firstIdx, secondIdx] = value;
+        }
+        
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -48,15 +38,6 @@ namespace Task2
                 result.Append(Environment.NewLine);
             }
             return result.ToString();
-        }
-
-        private void IndexesValidation(int firstIdx, int secondIdx)
-        {
-            if (firstIdx < 0 || secondIdx < 0
-                    || firstIdx >= Size || secondIdx >= Size)
-            {
-                throw new ArgumentOutOfRangeException("Indexes must be in range [0; size of matrix).");
-            }
         }
     }
 }
